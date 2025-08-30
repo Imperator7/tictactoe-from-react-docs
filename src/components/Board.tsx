@@ -29,7 +29,6 @@ export default function Board({ turn, setTurn }: BoardProps) {
             return (
               <Square
                 key={`${boxIndex}`}
-                turn={turn}
                 setTurn={setTurn}
                 setMark={setMark}
                 mark={marks[boxIndex]}

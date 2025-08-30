@@ -2,7 +2,6 @@ import type { Dispatch, SetStateAction } from 'react'
 import { type MarkType, type PlayerTurn } from '../types/board.type'
 
 type SquareProps = {
-  turn: PlayerTurn
   mark: MarkType
   setTurn: Dispatch<SetStateAction<PlayerTurn>>
   setMark: (index: number) => boolean
@@ -10,7 +9,6 @@ type SquareProps = {
 }
 
 export default function Square({
-  turn,
   setTurn,
   mark,
   setMark,
@@ -18,12 +16,28 @@ export default function Square({
 }: SquareProps) {
   const handleSquareClick = () => {
     const res: boolean = setMark(boxIndex)
+
     if (!res) return
-    setTurn(turn === 'X' ? 'O' : 'X')
+    setTurn((prev) => (prev === 'X' ? 'O' : 'X'))
   }
 
+  const cornerByIndex = (index: number): string => {
+    const borderRadius = 4
+    if (index === 0) return `${borderRadius}px 0 0 0`
+    if (index === 2) return `0 ${borderRadius}px 0 0`
+    if (index === 6) return `0 0 0 ${borderRadius}px`
+    if (index === 8) return `0 0 ${borderRadius}px 0`
+
+    return '0px'
+  }
   return (
-    <button className="square" onClick={handleSquareClick}>
+    <button
+      className="square"
+      onClick={handleSquareClick}
+      style={{
+        borderRadius: cornerByIndex(boxIndex),
+      }}
+    >
       {mark}
     </button>
   )

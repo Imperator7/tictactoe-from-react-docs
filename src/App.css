@@ -10,7 +10,6 @@
 
 .board-row {
   display: flex;
-  background-color: #701919;
   width: fit-content;
   height: 40px;
   cursor: pointer;
