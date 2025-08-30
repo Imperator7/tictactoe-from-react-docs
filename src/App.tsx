@@ -1,13 +1,16 @@
 import { useState } from 'react'
-import Square from './components/Square'
+import Board from './components/Board'
 import './App.css'
 
+export type Player = 'X' | 'O' | ''
+
 function App() {
-  const [count, setCount] = useState(0)
+  const [turn, setTurn] = useState<Player>('X')
 
   return (
     <>
-      <Square></Square>
+      <h4>Next Player: {turn}</h4>
+      <Board turn={turn} setTurn={setTurn} />
     </>
   )
 }

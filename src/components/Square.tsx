@@ -1,16 +1,23 @@
+import type { Dispatch, SetStateAction } from 'react'
 import { useState } from 'react'
+import { type Player } from '../App'
 
-export default function Square() {
-  type markType = '' | 'X' | 'O'
+type SquareProps = {
+  turn: Player
+  setTurn: Dispatch<SetStateAction<Player>>
+}
 
-  const [mark, setMark] = useState<markType>('')
+export default function Square({ turn, setTurn }: SquareProps) {
+  const [mark, setMark] = useState<Player>('')
 
-  const onSquareClick = () => {
-    setMark('X')
+  const handleSquareClick = () => {
+    setMark(turn)
+
+    setTurn(turn === 'X' ? 'O' : 'X')
   }
 
   return (
-    <button className="square" onClick={onSquareClick}>
+    <button className="square" onClick={handleSquareClick}>
       {mark}
     </button>
   )
