@@ -10,12 +10,14 @@ type BoardProps = {
 export default function Board({ turn, setTurn }: BoardProps) {
   const [marks, setMarks] = useState<MarkType[]>(Array(9).fill(null))
 
-  function setMark(index: number) {
-    if (marks[index] !== null) return
+  function setMark(index: number): boolean {
+    if (marks[index] !== null) return false
 
     const nextMarks = [...marks]
     nextMarks[index] = turn
     setMarks(nextMarks)
+
+    return true
   }
 
   return (
