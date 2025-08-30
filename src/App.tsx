@@ -1,11 +1,10 @@
 import { useState } from 'react'
 import Board from './components/Board'
+import type { PlayerTurn } from './types/board.type'
 import './App.css'
 
-export type Player = 'X' | 'O' | ''
-
 function App() {
-  const [turn, setTurn] = useState<Player>('X')
+  const [turn, setTurn] = useState<PlayerTurn>('X')
 
   return (
     <>
