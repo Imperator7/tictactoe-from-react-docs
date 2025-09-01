@@ -7,6 +7,7 @@ type SquareProps = {
   setMark: (index: number) => boolean
   boxIndex: number
   clickable: boolean
+  highlight: boolean
 }
 
 export default function Square({
@@ -15,6 +16,7 @@ export default function Square({
   setMark,
   boxIndex,
   clickable,
+  highlight,
 }: SquareProps) {
   const handleSquareClick = () => {
     if (!clickable) return
@@ -41,6 +43,7 @@ export default function Square({
       onClick={handleSquareClick}
       style={{
         borderRadius: cornerByIndex(boxIndex),
+        backgroundColor: `${(highlight && 'gold') || ''}`,
       }}
     >
       {mark}

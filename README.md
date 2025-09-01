@@ -8,7 +8,7 @@ Can't click the occupied box
 Can't click after the game ended
 Play again button
 Tied detection
+highlight winning line
 
 upcoming features:
 Time travel
-highlight winning line

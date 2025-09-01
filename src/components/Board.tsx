@@ -5,7 +5,13 @@ import {
   type gameResult,
 } from '../types/board.type'
 import Square from './Square'
-import { useEffect, useState, type Dispatch, type SetStateAction } from 'react'
+import {
+  useEffect,
+  useState,
+  useMemo,
+  type Dispatch,
+  type SetStateAction,
+} from 'react'
 
 type BoardProps = {
   turn: PlayerTurn
@@ -25,13 +31,15 @@ export default function Board({
   const [marks, setMarks] = useState<Mark[]>(Array(9).fill(null))
   const [clickable, setClickable] = useState<boolean>(true)
 
-  useEffect(() => {
-    const res = calculateWinner(marks)
-    const isDraw = !res && !marks.includes(null)
+  const cachedGameResult = useMemo(() => calculateWinner(marks), [marks])
 
-    if (res) {
+  useEffect(() => {
+    const winner = cachedGameResult?.winner
+    const isDraw = !winner && !marks.includes(null)
+
+    if (winner) {
       setClickable(false)
-      if (res.winner === 'X') {
+      if (winner === 'X') {
         setGameStage('X_Win')
       } else {
         setGameStage('O_Win')
@@ -63,6 +71,13 @@ export default function Board({
     return true
   }
 
+  function highlightedButton(index: number): boolean {
+    if (cachedGameResult?.line?.includes(index)) {
+      return true
+    }
+    return false
+  }
+
   return (
     <>
       {[0, 1, 2].map((r) => (
@@ -77,6 +92,7 @@ export default function Board({
                 mark={marks[boxIndex]}
                 boxIndex={boxIndex}
                 clickable={clickable}
+                highlight={highlightedButton(boxIndex)}
               />
             )
           })}
