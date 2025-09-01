@@ -1,8 +1,8 @@
 import type { Dispatch, SetStateAction } from 'react'
-import { type MarkType, type PlayerTurn } from '../types/board.type'
+import { type Mark, type PlayerTurn } from '../types/board.type'
 
 type SquareProps = {
-  mark: MarkType
+  mark: Mark
   setTurn: Dispatch<SetStateAction<PlayerTurn>>
   setMark: (index: number) => boolean
   boxIndex: number

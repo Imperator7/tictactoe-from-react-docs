@@ -1,23 +1,39 @@
 import calculateWinner from '../calculateWinner'
-import { type PlayerTurn, type MarkType } from '../types/board.type'
+import {
+  type PlayerTurn,
+  type Mark,
+  type gameResult,
+} from '../types/board.type'
 import Square from './Square'
 import { useEffect, useState, type Dispatch, type SetStateAction } from 'react'
 
 type BoardProps = {
   turn: PlayerTurn
   setTurn: Dispatch<SetStateAction<PlayerTurn>>
-  setEnd: Dispatch<SetStateAction<boolean>>
+  setGameStage: Dispatch<SetStateAction<gameResult>>
 }
 
-export default function Board({ turn, setTurn, setEnd }: BoardProps) {
-  const [marks, setMarks] = useState<MarkType[]>(Array(9).fill(null))
+export default function Board({ turn, setTurn, setGameStage }: BoardProps) {
+  const [marks, setMarks] = useState<Mark[]>(Array(9).fill(null))
   const [clickable, setClickable] = useState<boolean>(true)
 
   useEffect(() => {
     const res = calculateWinner(marks)
+    const isDraw = !res && !marks.includes(null)
+
     if (res) {
       setClickable(false)
-      setEnd(true)
+      if (res.winner === 'X') {
+        setGameStage('X_Win')
+      } else {
+        setGameStage('O_Win')
+      }
+      return
+    }
+
+    if (isDraw) {
+      setClickable(false)
+      setGameStage('Tied')
     }
   }, [marks])
 

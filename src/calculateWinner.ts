@@ -1,6 +1,6 @@
-import type { MarkType } from './types/board.type'
+import type { Mark, WinInfo } from './types/board.type'
 
-export default function calculateWinner(board: MarkType[]): boolean {
+export default function calculateWinner(board: Mark[]): WinInfo | null {
   const lines = [
     [0, 1, 2],
     [3, 4, 5],
@@ -14,9 +14,9 @@ export default function calculateWinner(board: MarkType[]): boolean {
 
   for (const [a, b, c] of lines) {
     if (board[a] !== null && board[a] === board[b] && board[a] === board[c]) {
-      return true
+      return { winner: board[a], line: [a, b, c] }
     }
   }
 
-  return false
+  return null
 }
