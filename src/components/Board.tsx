@@ -11,9 +11,17 @@ type BoardProps = {
   turn: PlayerTurn
   setTurn: Dispatch<SetStateAction<PlayerTurn>>
   setGameStage: Dispatch<SetStateAction<gameResult>>
+  resetGame: boolean
+  setResetGame: Dispatch<SetStateAction<boolean>>
 }
 
-export default function Board({ turn, setTurn, setGameStage }: BoardProps) {
+export default function Board({
+  turn,
+  setTurn,
+  setGameStage,
+  resetGame,
+  setResetGame,
+}: BoardProps) {
   const [marks, setMarks] = useState<Mark[]>(Array(9).fill(null))
   const [clickable, setClickable] = useState<boolean>(true)
 
@@ -36,6 +44,14 @@ export default function Board({ turn, setTurn, setGameStage }: BoardProps) {
       setGameStage('Tied')
     }
   }, [marks])
+
+  useEffect(() => {
+    setMarks(Array(9).fill(null))
+    setTurn('X')
+    setGameStage(null)
+    setClickable(true)
+    setResetGame(false)
+  }, [resetGame])
 
   function setMark(index: number): boolean {
     if (marks[index] !== null) return false

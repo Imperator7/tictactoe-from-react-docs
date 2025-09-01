@@ -6,9 +6,9 @@ implemented features:
 Find the winner
 Can't click the occupied box
 Can't click after the game ended
+Play again button
 Tied detection
 
 upcoming features:
 Time travel
 highlight winning line
-Play again button

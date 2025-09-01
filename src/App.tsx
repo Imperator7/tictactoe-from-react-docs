@@ -9,6 +9,7 @@ function App() {
   const [gameAnnouncement, setGameAnnouncement] = useState<string>(
     'Welcome to the game, the first player is X'
   )
+  const [resetGame, setResetGame] = useState(false)
 
   useEffect(() => {
     setGameAnnouncement(`Current turn: player ${turn}`)
@@ -29,7 +30,19 @@ function App() {
   return (
     <>
       <h4>{gameAnnouncement}</h4>
-      <Board turn={turn} setTurn={setTurn} setGameStage={setGameStage} />
+      <Board
+        turn={turn}
+        setTurn={setTurn}
+        setGameStage={setGameStage}
+        resetGame={resetGame}
+        setResetGame={setResetGame}
+      />
+      <br />
+      {gameStage !== null ? (
+        <button onClick={() => setResetGame(true)}>Play again</button>
+      ) : (
+        ''
+      )}
     </>
   )
 }
