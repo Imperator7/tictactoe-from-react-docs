@@ -8,6 +8,10 @@
   background-color: white;
 }
 
+.square:hover {
+  background-color: rgb(228, 255, 241);
+}
+
 .board-row {
   display: flex;
   width: fit-content;

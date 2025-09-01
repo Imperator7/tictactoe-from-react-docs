@@ -6,6 +6,7 @@ type SquareProps = {
   setTurn: Dispatch<SetStateAction<PlayerTurn>>
   setMark: (index: number) => boolean
   boxIndex: number
+  clickable: boolean
 }
 
 export default function Square({
@@ -13,8 +14,11 @@ export default function Square({
   mark,
   setMark,
   boxIndex,
+  clickable,
 }: SquareProps) {
   const handleSquareClick = () => {
+    if (!clickable) return
+
     const res: boolean = setMark(boxIndex)
 
     if (!res) return
@@ -30,6 +34,7 @@ export default function Square({
 
     return '0px'
   }
+
   return (
     <button
       className="square"
