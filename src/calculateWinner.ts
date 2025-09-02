@@ -12,7 +12,6 @@ export default function calculateWinner(board: Mark[]): WinInfo | null {
     [2, 4, 6],
   ]
 
-  console.log(board)
   for (const [a, b, c] of lines) {
     if (board[a] !== null && board[a] === board[b] && board[a] === board[c]) {
       return { winner: board[a], line: [a, b, c] }
