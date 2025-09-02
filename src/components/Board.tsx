@@ -11,6 +11,7 @@ import {
   useMemo,
   type Dispatch,
   type SetStateAction,
+  type RefObject,
 } from 'react'
 
 type BoardProps = {
@@ -19,6 +20,11 @@ type BoardProps = {
   setGameStage: Dispatch<SetStateAction<gameResult>>
   resetGame: boolean
   setResetGame: Dispatch<SetStateAction<boolean>>
+  hasStartedRef: RefObject<boolean>
+  history: Mark[][]
+  setHistory: Dispatch<SetStateAction<Mark[][]>>
+  currentMove: number
+  setCurrentMove: Dispatch<SetStateAction<number>>
 }
 
 export default function Board({
@@ -27,14 +33,19 @@ export default function Board({
   setGameStage,
   resetGame,
   setResetGame,
+  hasStartedRef,
+  history,
+  setHistory,
+  currentMove,
+  setCurrentMove,
 }: BoardProps) {
   const [marks, setMarks] = useState<Mark[]>(Array(9).fill(null))
   const [clickable, setClickable] = useState<boolean>(true)
 
-  const cachedGameResult = useMemo(() => calculateWinner(marks), [marks])
+  const gameResult = useMemo(() => calculateWinner(marks), [marks])
 
   useEffect(() => {
-    const winner = cachedGameResult?.winner
+    const winner = gameResult?.winner
     const isDraw = !winner && !marks.includes(null)
 
     if (winner) {
@@ -51,7 +62,7 @@ export default function Board({
       setClickable(false)
       setGameStage('Tied')
     }
-  }, [marks])
+  }, [gameResult, marks, setGameStage])
 
   useEffect(() => {
     setMarks(Array(9).fill(null))
@@ -59,23 +70,35 @@ export default function Board({
     setGameStage(null)
     setClickable(true)
     setResetGame(false)
-  }, [resetGame])
+  }, [resetGame, setTurn, setGameStage, setResetGame])
+
+  useEffect(() => {
+    setMarks(history[currentMove])
+  }, [currentMove, history])
 
   function setMark(index: number): boolean {
     if (marks[index] !== null) return false
+    // setHasStarted(true)
+    if (currentMove === 0) {
+      hasStartedRef.current = true
+    }
+    setCurrentMove((prev) => prev + 1)
 
     const nextMarks = [...marks]
     nextMarks[index] = turn
     setMarks(nextMarks)
 
+    setHistory((prev) => {
+      const newPrev = [...prev]
+      newPrev.splice(currentMove + 1)
+      newPrev.push(nextMarks)
+      return newPrev
+    })
     return true
   }
 
   function highlightedButton(index: number): boolean {
-    if (cachedGameResult?.line?.includes(index)) {
-      return true
-    }
-    return false
+    return gameResult?.line?.includes(index) ?? false
   }
 
   return (

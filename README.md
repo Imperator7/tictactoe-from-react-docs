@@ -9,13 +9,14 @@ Can't click after the game ended
 Play again button
 Tied detection
 highlight winning line
+Time travel
 
 upcoming features:
-Time travel
+All done
 
 Learned from doing:
 design state management
-useMemo
+useMemo must be pure/ useEffect use for side effects(logging, state syncing, etc)
 
 Problems faced when developing:
 react's strict mode makes mounting happens twice

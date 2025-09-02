@@ -1,15 +1,17 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import Board from './components/Board'
 import type { gameResult, Mark, PlayerTurn } from './types/board.type'
 import './App.css'
 
 function App() {
-  const [history, setHistory] = useState<Mark[][]>([])
+  const [history, setHistory] = useState<Mark[][]>([Array(9).fill(null)])
   const [turn, setTurn] = useState<PlayerTurn>('X')
   const [gameStage, setGameStage] = useState<gameResult>(null)
   const [gameAnnouncement, setGameAnnouncement] = useState<string>()
   const [resetGame, setResetGame] = useState(false)
-  const [hasStarted, setHasStarted] = useState(false)
+  const [currentMove, setCurrentMove] = useState(0)
+
+  const hasStartedRef = useRef(false)
 
   useEffect(() => {
     if (gameStage === 'X_Win') {
@@ -20,28 +22,68 @@ function App() {
       setGameAnnouncement('The game is tied, let try again.')
     } else
       setGameAnnouncement(
-        hasStarted
+        hasStartedRef.current
           ? `Current turn: player ${turn}`
           : `Welcome to the game, the first player is X`
       )
-  }, [turn, gameStage, hasStarted])
+  }, [turn, gameStage])
 
+  useEffect(() => {
+    if (resetGame) {
+      hasStartedRef.current = false
+    }
+  }, [resetGame])
+
+  const handleHistorySelect = (move: number) => {
+    console.log(history[move])
+    setCurrentMove(move)
+  }
+
+  const handlePlayAgain = () => {
+    setResetGame(true)
+  }
   return (
     <>
       <h4>{gameAnnouncement}</h4>
-      <Board
-        turn={turn}
-        setTurn={setTurn}
-        setGameStage={setGameStage}
-        resetGame={resetGame}
-        setResetGame={setResetGame}
-      />
-      <br />
-      {gameStage !== null ? (
-        <button onClick={() => setResetGame(true)}>Play again</button>
-      ) : (
-        ''
-      )}
+      <div style={{ display: 'flex' }}>
+        <div>
+          <Board
+            turn={turn}
+            setTurn={setTurn}
+            setGameStage={setGameStage}
+            resetGame={resetGame}
+            setResetGame={setResetGame}
+            hasStartedRef={hasStartedRef}
+            history={history}
+            setHistory={setHistory}
+            currentMove={currentMove}
+            setCurrentMove={setCurrentMove}
+          />
+          <br />
+          {gameStage !== null ? (
+            <button onClick={handlePlayAgain}>Play again</button>
+          ) : (
+            ''
+          )}
+        </div>
+        <div>
+          <ul style={{ listStyle: 'none', margin: '0 24px', padding: '0' }}>
+            {history.map((_round, index) => (
+              <li key={index} style={{ margin: '2px' }}>
+                {index !== 0 ? (
+                  <button onClick={() => handleHistorySelect(index)}>
+                    Go to move #{index}
+                  </button>
+                ) : (
+                  <button onClick={() => handleHistorySelect(index)}>
+                    Go to game start
+                  </button>
+                )}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
     </>
   )
 }
