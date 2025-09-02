@@ -1,31 +1,30 @@
 import { useEffect, useState } from 'react'
 import Board from './components/Board'
-import type { gameResult, PlayerTurn } from './types/board.type'
+import type { gameResult, Mark, PlayerTurn } from './types/board.type'
 import './App.css'
 
 function App() {
+  const [history, setHistory] = useState<Mark[][]>([])
   const [turn, setTurn] = useState<PlayerTurn>('X')
   const [gameStage, setGameStage] = useState<gameResult>(null)
-  const [gameAnnouncement, setGameAnnouncement] = useState<string>(
-    'Welcome to the game, the first player is X'
-  )
+  const [gameAnnouncement, setGameAnnouncement] = useState<string>()
   const [resetGame, setResetGame] = useState(false)
-
-  useEffect(() => {
-    setGameAnnouncement(`Current turn: player ${turn}`)
-  }, [turn])
+  const [hasStarted, setHasStarted] = useState(false)
 
   useEffect(() => {
     if (gameStage === 'X_Win') {
       setGameAnnouncement('The winner is player X.')
-    }
-    if (gameStage === 'O_Win') {
+    } else if (gameStage === 'O_Win') {
       setGameAnnouncement('The winner is player O.')
-    }
-    if (gameStage === 'Tied') {
+    } else if (gameStage === 'Tied') {
       setGameAnnouncement('The game is tied, let try again.')
-    }
-  }, [gameStage])
+    } else
+      setGameAnnouncement(
+        hasStarted
+          ? `Current turn: player ${turn}`
+          : `Welcome to the game, the first player is X`
+      )
+  }, [turn, gameStage, hasStarted])
 
   return (
     <>

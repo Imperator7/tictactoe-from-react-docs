@@ -12,3 +12,10 @@ highlight winning line
 
 upcoming features:
 Time travel
+
+Learned from doing:
+design state management
+useMemo
+
+Problems faced when developing:
+react's strict mode makes mounting happens twice
