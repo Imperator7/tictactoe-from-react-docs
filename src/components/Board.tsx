@@ -11,7 +11,6 @@ import {
   useMemo,
   type Dispatch,
   type SetStateAction,
-  type RefObject,
 } from 'react'
 
 type BoardProps = {
@@ -20,7 +19,6 @@ type BoardProps = {
   setGameStage: Dispatch<SetStateAction<gameResult>>
   resetGame: boolean
   setResetGame: Dispatch<SetStateAction<boolean>>
-  hasStartedRef: RefObject<boolean>
   history: Mark[][]
   setHistory: Dispatch<SetStateAction<Mark[][]>>
   currentMove: number
@@ -33,7 +31,6 @@ export default function Board({
   setGameStage,
   resetGame,
   setResetGame,
-  hasStartedRef,
   history,
   setHistory,
   currentMove,
@@ -42,7 +39,9 @@ export default function Board({
   const [marks, setMarks] = useState<Mark[]>(Array(9).fill(null))
   const [clickable, setClickable] = useState<boolean>(true)
 
-  const gameResult = useMemo(() => calculateWinner(marks), [marks])
+  const gameResult = useMemo(() => {
+    return calculateWinner(marks)
+  }, [marks])
 
   useEffect(() => {
     const winner = gameResult?.winner
@@ -69,8 +68,17 @@ export default function Board({
     setTurn('X')
     setGameStage(null)
     setClickable(true)
+    setHistory([Array(9).fill(null)])
+    setCurrentMove(0)
     setResetGame(false)
-  }, [resetGame, setTurn, setGameStage, setResetGame])
+  }, [
+    resetGame,
+    setTurn,
+    setGameStage,
+    setResetGame,
+    setHistory,
+    setCurrentMove,
+  ])
 
   useEffect(() => {
     setMarks(history[currentMove])
@@ -79,9 +87,6 @@ export default function Board({
   function setMark(index: number): boolean {
     if (marks[index] !== null) return false
     // setHasStarted(true)
-    if (currentMove === 0) {
-      hasStartedRef.current = true
-    }
     setCurrentMove((prev) => prev + 1)
 
     const nextMarks = [...marks]

@@ -12,7 +12,7 @@ highlight winning line
 Time travel
 
 upcoming features:
-All done
+refactor state to use useReducer
 
 Learned from doing:
 design state management

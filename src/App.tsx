@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from 'react'
+import { useEffect, useState } from 'react'
 import Board from './components/Board'
 import type { gameResult, Mark, PlayerTurn } from './types/board.type'
 import './App.css'
@@ -11,8 +11,6 @@ function App() {
   const [resetGame, setResetGame] = useState(false)
   const [currentMove, setCurrentMove] = useState(0)
 
-  const hasStartedRef = useRef(false)
-
   useEffect(() => {
     if (gameStage === 'X_Win') {
       setGameAnnouncement('The winner is player X.')
@@ -22,26 +20,20 @@ function App() {
       setGameAnnouncement('The game is tied, let try again.')
     } else
       setGameAnnouncement(
-        hasStartedRef.current
+        currentMove !== 0
           ? `Current turn: player ${turn}`
           : `Welcome to the game, the first player is X`
       )
-  }, [turn, gameStage])
-
-  useEffect(() => {
-    if (resetGame) {
-      hasStartedRef.current = false
-    }
-  }, [resetGame])
+  }, [turn, gameStage, currentMove])
 
   const handleHistorySelect = (move: number) => {
-    console.log(history[move])
     setCurrentMove(move)
   }
 
   const handlePlayAgain = () => {
     setResetGame(true)
   }
+
   return (
     <>
       <h4>{gameAnnouncement}</h4>
@@ -53,7 +45,6 @@ function App() {
             setGameStage={setGameStage}
             resetGame={resetGame}
             setResetGame={setResetGame}
-            hasStartedRef={hasStartedRef}
             history={history}
             setHistory={setHistory}
             currentMove={currentMove}
