@@ -17,6 +17,7 @@ refactor state to use useReducer
 **Learned from doing:**
 - designing state management
 - useMemo must be pure/ useEffect use for side effects(logging, state syncing, etc)
+- the files in react will get hashed and embedded when building but the files outside the react code like svg icon file in index.html wont get embedded, so we have to put it in public file if not the file is no where to find.
 
 **Problems faced when developing:**
 - react's strict mode makes mounting happens twice
