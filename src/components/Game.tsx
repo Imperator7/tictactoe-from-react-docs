@@ -1,0 +1,97 @@
+import { useEffect, useState } from 'react'
+import Board from './Board'
+import type { gameResult, Mark, PlayerTurn } from '../types/board.type'
+
+export default function Game() {
+  const [history, setHistory] = useState<Mark[][]>([Array(9).fill(null)])
+  const [turn, setTurn] = useState<PlayerTurn>('X')
+  const [gameStage, setGameStage] = useState<gameResult>(null)
+  const [gameAnnouncement, setGameAnnouncement] = useState<string>()
+  const [resetGame, setResetGame] = useState(false)
+  const [currentMove, setCurrentMove] = useState(0)
+  const [toggleShowHistory, setToggleShowHistory] = useState(false)
+
+  useEffect(() => {
+    if (gameStage === 'X_Win') {
+      setGameAnnouncement('The winner is player X.')
+    } else if (gameStage === 'O_Win') {
+      setGameAnnouncement('The winner is player O.')
+    } else if (gameStage === 'Tied') {
+      setGameAnnouncement('The game is tied, let try again.')
+    } else
+      setGameAnnouncement(
+        currentMove !== 0
+          ? `Current turn: player ${turn}`
+          : `Welcome to the game, the first player is X`
+      )
+  }, [turn, gameStage, currentMove])
+
+  const handleHistorySelect = (move: number) => {
+    setCurrentMove(move)
+  }
+
+  const handlePlayAgain = () => {
+    setResetGame(true)
+  }
+  return (
+    <div className="w-full max-w-100">
+      <h2 className="text-xl !m-2 font-semibold">{gameAnnouncement}</h2>
+      <div>
+        <Board
+          turn={turn}
+          setTurn={setTurn}
+          setGameStage={setGameStage}
+          resetGame={resetGame}
+          setResetGame={setResetGame}
+          history={history}
+          setHistory={setHistory}
+          currentMove={currentMove}
+          setCurrentMove={setCurrentMove}
+        />
+        <br />
+        <div className="flex items-start justify-between">
+          <div>
+            {gameStage !== null ? (
+              <button
+                onClick={handlePlayAgain}
+                className="px-5 py-2 my-1 bg-green-700 text-white font-bold rounded-lg"
+              >
+                Play again
+              </button>
+            ) : (
+              ''
+            )}
+          </div>
+          <div className="flex flex-col items-end">
+            <button
+              className="px-5 py-2 my-1 bg-amber-400 rounded-lg text-white font-bold"
+              onClick={() => {
+                setToggleShowHistory(!toggleShowHistory)
+              }}
+            >
+              {toggleShowHistory ? 'Close history' : 'Show history'}
+            </button>
+            {toggleShowHistory && (
+              <ul className="flex flex-col  items-end gap-2 my-3">
+                {history.map((_round, index) => (
+                  <li key={index}>
+                    {
+                      <button
+                        className="bg-blue-600 text-white px-4 py-2 rounded"
+                        onClick={() => handleHistorySelect(index)}
+                      >
+                        {index !== 0
+                          ? `Go to move ${index}`
+                          : `Go to game start`}
+                      </button>
+                    }
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}

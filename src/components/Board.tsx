@@ -107,7 +107,7 @@ export default function Board({
   }
 
   return (
-    <div className="grid grid-cols-3 gap-0 w-fit">
+    <div className="grid grid-cols-3 gap-0 max-w-96 sm:max-w-sm md:max-w-md mx-auto">
       {marks.map((mark, index) => {
         return (
           <Square

@@ -39,7 +39,7 @@ export default function Square({
 
   return (
     <button
-      className="w-[30vw] h-[30vw] border text-6xl font-bold"
+      className="w-full aspect-square border text-6xl font-bold"
       onClick={handleSquareClick}
       style={{
         borderRadius: cornerByIndex(boxIndex),
