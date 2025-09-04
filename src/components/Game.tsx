@@ -1,37 +1,44 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useMemo } from 'react'
 import Board from './Board'
-import type { gameResult, Mark, PlayerTurn } from '../types/board.type'
+import type { GameInfo, Mark } from '../types/board.type'
+import calculateWinner from '../calculateWinner'
 
 export default function Game() {
   const [history, setHistory] = useState<Mark[][]>([Array(9).fill(null)])
-  const [turn, setTurn] = useState<PlayerTurn>('X')
-  const [gameStage, setGameStage] = useState<gameResult>(null)
-  const [gameAnnouncement, setGameAnnouncement] = useState<string>()
-  const [resetGame, setResetGame] = useState(false)
   const [currentMove, setCurrentMove] = useState(0)
+
+  const [gameAnnouncement, setGameAnnouncement] = useState<string>()
   const [toggleShowHistory, setToggleShowHistory] = useState(false)
 
+  const gameResult: GameInfo = useMemo(() => {
+    return calculateWinner(history[-1])
+  }, [history])
+
+  const turn = currentMove % 2 === 0 ? 'X' : 'O'
+
   useEffect(() => {
-    if (gameStage === 'X_Win') {
-      setGameAnnouncement('The winner is player X.')
-    } else if (gameStage === 'O_Win') {
-      setGameAnnouncement('The winner is player O.')
-    } else if (gameStage === 'Tied') {
-      setGameAnnouncement('The game is tied, let try again.')
+    if (gameResult?.gameEnd) {
+      if (gameResult.winner === 'X') {
+        setGameAnnouncement('The winner is player X.')
+      } else if (gameResult.winner === 'O') {
+        setGameAnnouncement('The winner is player O.')
+      }
     } else
       setGameAnnouncement(
         currentMove !== 0
           ? `Current turn: player ${turn}`
           : `Welcome to the game, the first player is X`
       )
-  }, [turn, gameStage, currentMove])
+  }, [history, turn, currentMove])
 
   const handleHistorySelect = (move: number) => {
     setCurrentMove(move)
   }
 
   const handlePlayAgain = () => {
-    setResetGame(true)
+    setGameStage(null)
+    setHistory([Array(9).fill(null)])
+    setCurrentMove(0)
   }
 
   const isEnd = gameStage === null
@@ -41,14 +48,12 @@ export default function Game() {
       <div>
         <Board
           turn={turn}
-          setTurn={setTurn}
           setGameStage={setGameStage}
-          resetGame={resetGame}
-          setResetGame={setResetGame}
           history={history}
           setHistory={setHistory}
           currentMove={currentMove}
           setCurrentMove={setCurrentMove}
+          gameResult={gameResult}
         />
         <br />
         <div className="flex items-start justify-between px-3">

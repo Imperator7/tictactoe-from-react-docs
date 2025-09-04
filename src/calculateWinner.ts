@@ -1,6 +1,6 @@
-import type { Mark, WinInfo } from './types/board.type'
+import type { Mark, PlayerTurn } from './types/board.type'
 
-export default function calculateWinner(board: Mark[]): WinInfo | null {
+export default function calculateWinner(board: Mark[]): PlayerTurn | null {
   const lines = [
     [0, 1, 2],
     [3, 4, 5],

@@ -1,9 +1,7 @@
-import type { Dispatch, SetStateAction } from 'react'
-import { type Mark, type PlayerTurn } from '../types/board.type'
+import { type Mark } from '../types/board.type'
 
 type SquareProps = {
   mark: Mark
-  setTurn: Dispatch<SetStateAction<PlayerTurn>>
   setMark: (index: number) => boolean
   boxIndex: number
   clickable: boolean
@@ -11,7 +9,6 @@ type SquareProps = {
 }
 
 export default function Square({
-  setTurn,
   mark,
   setMark,
   boxIndex,
@@ -20,11 +17,7 @@ export default function Square({
 }: SquareProps) {
   const handleSquareClick = () => {
     if (!clickable) return
-
-    const res: boolean = setMark(boxIndex)
-
-    if (!res) return
-    setTurn((prev) => (prev === 'X' ? 'O' : 'X'))
+    setMark(boxIndex)
   }
 
   const cornerByIndex = (index: number): string => {
