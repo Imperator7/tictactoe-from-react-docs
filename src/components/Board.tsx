@@ -107,25 +107,20 @@ export default function Board({
   }
 
   return (
-    <>
-      {[0, 1, 2].map((r) => (
-        <div key={r} className="board-row">
-          {[0, 1, 2].map((box) => {
-            const boxIndex = r * 3 + box
-            return (
-              <Square
-                key={`${boxIndex}`}
-                setTurn={setTurn}
-                setMark={setMark}
-                mark={marks[boxIndex]}
-                boxIndex={boxIndex}
-                clickable={clickable}
-                highlight={highlightedButton(boxIndex)}
-              />
-            )
-          })}
-        </div>
-      ))}
-    </>
+    <div className="grid grid-cols-3 gap-0 w-fit">
+      {marks.map((mark, index) => {
+        return (
+          <Square
+            key={`${index}`}
+            setTurn={setTurn}
+            setMark={setMark}
+            mark={mark}
+            boxIndex={index}
+            clickable={clickable}
+            highlight={highlightedButton(index)}
+          />
+        )
+      })}
+    </div>
   )
 }

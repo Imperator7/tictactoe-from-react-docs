@@ -35,47 +35,52 @@ function App() {
   }
 
   return (
-    <>
-      <h4>{gameAnnouncement}</h4>
-      <div style={{ display: 'flex' }}>
+    <div className="flex flex-col justify-center items-center">
+      <h2 className="text-xl !m-2 font-semibold">{gameAnnouncement}</h2>
+      <div>
+        <Board
+          turn={turn}
+          setTurn={setTurn}
+          setGameStage={setGameStage}
+          resetGame={resetGame}
+          setResetGame={setResetGame}
+          history={history}
+          setHistory={setHistory}
+          currentMove={currentMove}
+          setCurrentMove={setCurrentMove}
+        />
+        <br />
+        {gameStage !== null ? (
+          <button
+            onClick={handlePlayAgain}
+            className="px-5 py-2 bg-green-700 text-white font-bold rounded-lg"
+          >
+            Play again
+          </button>
+        ) : (
+          ''
+        )}
+
         <div>
-          <Board
-            turn={turn}
-            setTurn={setTurn}
-            setGameStage={setGameStage}
-            resetGame={resetGame}
-            setResetGame={setResetGame}
-            history={history}
-            setHistory={setHistory}
-            currentMove={currentMove}
-            setCurrentMove={setCurrentMove}
-          />
-          <br />
-          {gameStage !== null ? (
-            <button onClick={handlePlayAgain}>Play again</button>
-          ) : (
-            ''
-          )}
-        </div>
-        <div>
-          <ul style={{ listStyle: 'none', margin: '0 24px', padding: '0' }}>
+          <ul>
             {history.map((_round, index) => (
-              <li key={index} style={{ margin: '2px' }}>
-                {index !== 0 ? (
-                  <button onClick={() => handleHistorySelect(index)}>
-                    Go to move #{index}
+              <li key={index}>
+                {
+                  <button
+                    className="px-5 py-2 my-0.5 bg-blue-600 text-white font-medium 
+         hover:bg-blue-700 active:bg-blue-800 
+         shadow-sm hover:shadow-md active:scale-95 transition-all duration-50 ease-in"
+                    onClick={() => handleHistorySelect(index)}
+                  >
+                    {index !== 0 ? `Go to move ${index}` : `Go to game start`}
                   </button>
-                ) : (
-                  <button onClick={() => handleHistorySelect(index)}>
-                    Go to game start
-                  </button>
-                )}
+                }
               </li>
             ))}
           </ul>
         </div>
       </div>
-    </>
+    </div>
   )
 }
 
