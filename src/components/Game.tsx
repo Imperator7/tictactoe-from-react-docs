@@ -33,6 +33,8 @@ export default function Game() {
   const handlePlayAgain = () => {
     setResetGame(true)
   }
+
+  const isEnd = gameStage === null
   return (
     <div className="w-full max-w-100">
       <h2 className="text-xl !m-2 font-semibold">{gameAnnouncement}</h2>
@@ -49,18 +51,14 @@ export default function Game() {
           setCurrentMove={setCurrentMove}
         />
         <br />
-        <div className="flex items-start justify-between">
+        <div className="flex items-start justify-between px-3">
           <div>
-            {gameStage !== null ? (
-              <button
-                onClick={handlePlayAgain}
-                className="px-5 py-2 my-1 bg-green-700 text-white font-bold rounded-lg"
-              >
-                Play again
-              </button>
-            ) : (
-              ''
-            )}
+            <button
+              onClick={handlePlayAgain}
+              className="px-5 py-2 my-1 bg-green-700 text-white font-bold rounded-lg"
+            >
+              {isEnd ? 'Restart' : 'Play again'}
+            </button>
           </div>
           <div className="flex flex-col items-end">
             <button
