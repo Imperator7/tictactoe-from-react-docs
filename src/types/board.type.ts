@@ -4,6 +4,8 @@ export type Board = Mark[]
 export type BoardHistory = Board[]
 export type Line = readonly [number, number, number]
 
+export type WinnerInfo = { winner: Player; line: Line }
+
 export type GameStatus =
   | { status: 'end'; winner: Player; line: Line }
   | { status: 'tie' }

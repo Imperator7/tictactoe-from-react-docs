@@ -2,16 +2,14 @@ import { useState, useMemo } from 'react'
 import Board from './Board'
 
 import useTicTacToe from '../../hooks/useTicTacToe'
-import { currentBoard, currentTurn } from '../lib/logger'
-import getGameStage from '../lib/getGameStage'
+import { currentBoard, currentTurn, getGameStatus } from '../game-core/engine'
 
 export default function Game() {
   const [gameState, dispatch] = useTicTacToe()
-
   const [toggleShowHistory, setToggleShowHistory] = useState(false)
 
   const gameStage = useMemo(() => {
-    return getGameStage(gameState.history, gameState.currentMove)
+    return getGameStatus(gameState.history, gameState.currentMove)
   }, [gameState])
 
   const announcement = useMemo(() => {
