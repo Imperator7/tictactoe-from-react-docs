@@ -1,59 +1,67 @@
-import { useEffect, useState, useMemo } from 'react'
+import { useState, useMemo } from 'react'
 import Board from './Board'
-import type { GameInfo, Mark } from '../types/board.type'
-import calculateWinner from '../calculateWinner'
+
+import useTicTacToe from '../../hooks/useTicTacToe'
+import { currentBoard, currentTurn } from '../lib/logger'
+import getGameStage from '../lib/getGameStage'
 
 export default function Game() {
-  const [history, setHistory] = useState<Mark[][]>([Array(9).fill(null)])
-  const [currentMove, setCurrentMove] = useState(0)
+  const [gameState, dispatch] = useTicTacToe()
 
-  const [gameAnnouncement, setGameAnnouncement] = useState<string>()
   const [toggleShowHistory, setToggleShowHistory] = useState(false)
 
-  const gameResult: GameInfo = useMemo(() => {
-    return calculateWinner(history[-1])
-  }, [history])
+  const gameStage = useMemo(() => {
+    return getGameStage(gameState.history, gameState.currentMove)
+  }, [gameState])
 
-  const turn = currentMove % 2 === 0 ? 'X' : 'O'
+  const announcement = useMemo(() => {
+    if (gameState.currentMove === 0) {
+      return `🕹️ Let's game, the first player is X.`
+    }
+    if (gameStage.status === 'end') {
+      return `The winner is player ${gameStage.winner}.`
+    }
+    if (gameStage.status === 'tie') {
+      return `The game is tied, let's play again.`
+    }
+    if (gameStage.status === 'ongoing') {
+      return `Current Turn: player ${currentTurn(gameState)}.`
+    }
+  }, [gameStage, gameState])
 
-  useEffect(() => {
-    if (gameResult?.gameEnd) {
-      if (gameResult.winner === 'X') {
-        setGameAnnouncement('The winner is player X.')
-      } else if (gameResult.winner === 'O') {
-        setGameAnnouncement('The winner is player O.')
-      }
-    } else
-      setGameAnnouncement(
-        currentMove !== 0
-          ? `Current turn: player ${turn}`
-          : `Welcome to the game, the first player is X`
-      )
-  }, [history, turn, currentMove])
+  const handlePlaceMark = (markAt: number) => {
+    dispatch({
+      type: 'mark',
+      payload: {
+        markAt,
+      },
+    })
+  }
 
-  const handleHistorySelect = (move: number) => {
-    setCurrentMove(move)
+  const handleHistorySelect = (jumpTo: number) => {
+    dispatch({
+      type: 'jump',
+      payload: {
+        jumpTo,
+      },
+    })
   }
 
   const handlePlayAgain = () => {
-    setGameStage(null)
-    setHistory([Array(9).fill(null)])
-    setCurrentMove(0)
+    dispatch({
+      type: 'reset',
+    })
   }
 
-  const isEnd = gameStage === null
+  const isEnd = gameStage.status !== 'ongoing'
   return (
     <div className="w-full max-w-100">
-      <h2 className="text-xl !m-2 font-semibold">{gameAnnouncement}</h2>
+      <h2 className="text-xl !m-2 font-semibold">{announcement}</h2>
       <div>
         <Board
-          turn={turn}
-          setGameStage={setGameStage}
-          history={history}
-          setHistory={setHistory}
-          currentMove={currentMove}
-          setCurrentMove={setCurrentMove}
-          gameResult={gameResult}
+          marks={currentBoard(gameState)}
+          handlePlaceMark={handlePlaceMark}
+          gameStage={gameStage}
         />
         <br />
         <div className="flex items-start justify-between px-3">
@@ -76,7 +84,7 @@ export default function Game() {
             </button>
             {toggleShowHistory && (
               <ul className="flex flex-col  items-end gap-2 my-3">
-                {history.map((_round, index) => (
+                {gameState.history.map((_round, index) => (
                   <li key={index}>
                     {
                       <button

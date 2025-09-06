@@ -1,69 +1,21 @@
-import {
-  type PlayerTurn,
-  type Mark,
-  type GameResult,
-  type GameInfo,
-} from '../types/board.type'
+import type { GameStatus, Board } from '../types/board.type'
 import Square from './Square'
-import { useEffect, type Dispatch, type SetStateAction } from 'react'
 
 type BoardProps = {
-  turn: PlayerTurn
-  setGameStage: Dispatch<SetStateAction<GameResult>>
-  history: Mark[][]
-  setHistory: Dispatch<SetStateAction<Mark[][]>>
-  currentMove: number
-  setCurrentMove: Dispatch<SetStateAction<number>>
-  gameResult: GameInfo
+  marks: Board
+  handlePlaceMark: (martAt: number) => void
+  gameStage: GameStatus
 }
 
 export default function Board({
-  turn,
-  setGameStage,
-  history,
-  setHistory,
-  currentMove,
-  setCurrentMove,
-  gameResult,
+  marks,
+  handlePlaceMark,
+  gameStage,
 }: BoardProps) {
-  const marks = history[currentMove]
-
-  useEffect(() => {
-    const winner = gameResult?.winner
-    const isDraw = !winner && !marks.includes(null)
-
-    if (winner) {
-      if (winner === 'X') {
-        setGameStage('X_Win')
-      } else {
-        setGameStage('O_Win')
-      }
-      return
-    }
-
-    if (isDraw) {
-      setGameStage('Tied')
-    }
-  }, [gameResult, marks, setGameStage])
-
-  function setMark(index: number): boolean {
-    if (marks[index] !== null) return false
-    // setHasStarted(true)
-    setCurrentMove((prev) => prev + 1)
-
-    const nextMarks = [...marks]
-    nextMarks[index] = turn
-    setHistory((prev) => {
-      const newPrev = [...prev]
-      newPrev.splice(currentMove + 1)
-      newPrev.push(nextMarks)
-      return newPrev
-    })
-    return true
-  }
-
-  function highlightedButton(index: number): boolean {
-    return gameResult?.line?.includes(index) ?? false
+  function highlightedButton(index: number): string {
+    if (gameStage.status === 'ongoing') return 'bg-slate-200'
+    if (gameStage.status === 'tie') return 'bg-amber-500'
+    return gameStage?.line?.includes(index) ? 'bg-emerald-600' : ''
   }
 
   return (
@@ -72,11 +24,11 @@ export default function Board({
         return (
           <Square
             key={`${index}`}
-            setMark={setMark}
             mark={mark}
             boxIndex={index}
-            clickable={gameResult !== null}
+            clickable={gameStage.status === 'ongoing'}
             highlight={highlightedButton(index)}
+            handlePlaceMark={handlePlaceMark}
           />
         )
       })}
