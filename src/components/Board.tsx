@@ -15,7 +15,7 @@ export default function Board({
   function highlightedButton(index: number): string {
     if (gameStage.status === 'ongoing') return 'bg-slate-200'
     if (gameStage.status === 'tie') return 'bg-amber-500'
-    return gameStage?.line?.includes(index) ? 'bg-emerald-600' : ''
+    return gameStage?.line?.includes(index) ? 'bg-emerald-600' : 'bg-slate-200'
   }
 
   return (
