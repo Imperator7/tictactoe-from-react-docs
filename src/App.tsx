@@ -3,7 +3,7 @@ import './App.css'
 
 function App() {
   return (
-    <div className="min-h-screen flex justify-center bg-indigo-50">
+    <div className="min-h-screen flex justify-center  bg-lime-50">
       <Game />
     </div>
   )

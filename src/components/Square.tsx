@@ -1,30 +1,23 @@
-import type { Dispatch, SetStateAction } from 'react'
-import { type Mark, type PlayerTurn } from '../types/board.type'
+import { type Mark } from '../types/board.type'
 
 type SquareProps = {
   mark: Mark
-  setTurn: Dispatch<SetStateAction<PlayerTurn>>
-  setMark: (index: number) => boolean
   boxIndex: number
   clickable: boolean
-  highlight: boolean
+  highlight: string
+  handlePlaceMark: (markAt: number) => void
 }
 
 export default function Square({
-  setTurn,
   mark,
-  setMark,
   boxIndex,
   clickable,
   highlight,
+  handlePlaceMark,
 }: SquareProps) {
-  const handleSquareClick = () => {
-    if (!clickable) return
-
-    const res: boolean = setMark(boxIndex)
-
-    if (!res) return
-    setTurn((prev) => (prev === 'X' ? 'O' : 'X'))
+  const handleBoxClick = () => {
+    if (clickable === false) return
+    handlePlaceMark(boxIndex)
   }
 
   const cornerByIndex = (index: number): string => {
@@ -39,11 +32,10 @@ export default function Square({
 
   return (
     <button
-      className="w-full aspect-square border text-6xl font-bold"
-      onClick={handleSquareClick}
+      className={`w-full aspect-square border text-6xl font-bold ${highlight}`}
+      onClick={handleBoxClick}
       style={{
         borderRadius: cornerByIndex(boxIndex),
-        backgroundColor: `${(highlight && 'gold') || ''}`,
       }}
     >
       {mark}
