@@ -52,6 +52,7 @@ export default function Game() {
   }
 
   const isEnd = gameStage.status !== 'ongoing'
+
   return (
     <div className="w-full max-w-100 px-2">
       <h2 className="text-xl my-1.5 font-semibold">{announcement}</h2>
@@ -66,14 +67,14 @@ export default function Game() {
           <div>
             <button
               onClick={handlePlayAgain}
-              className="px-9 py-2 my-1 bg-green-700 text-white font-bold rounded-lg"
+              className="px-9 py-2 my-1 bg-green-700 text-white font-bold rounded-lg transition-transform duration-75 hover:-translate-y-0.5 active:translate-y-1"
             >
-              {isEnd ? 'Restart' : 'Play again'}
+              {isEnd ? 'Play again' : 'Restart'}
             </button>
           </div>
           <div className="flex flex-col items-end">
             <button
-              className="px-5 py-2 my-1 bg-amber-400 rounded-lg text-white font-bold"
+              className="px-5 py-2 my-1 bg-amber-400 rounded-lg text-white font-bold transition-transform duration-75 hover:-translate-y-0.5 active:translate-y-1"
               onClick={() => {
                 setToggleShowHistory(!toggleShowHistory)
               }}
@@ -86,7 +87,7 @@ export default function Game() {
                   <li key={index}>
                     {
                       <button
-                        className="bg-blue-600 text-white px-4 py-2 rounded"
+                        className="bg-blue-600 text-white px-4 py-2 rounded text-xs transition-transform duration-75 hover:-translate-y-1 active:translate-y-1"
                         onClick={() => handleHistorySelect(index)}
                       >
                         {index !== 0
