@@ -1,15 +1,8 @@
 @import 'tailwindcss';
 
 @keyframes ripple {
-  0% {
-    transform: translate(-50%, -50%) scale(0);
-    opacity: 0.35;
-  }
-  70% {
-    opacity: 0.18;
-  }
-  100% {
-    transform: translate(-50%, -50%) scale(12);
+  to {
+    transform: translate3d(-50%, -50%, 0) scale(5.5);
     opacity: 0;
   }
 }
@@ -20,8 +13,9 @@
   height: 8px;
   border-radius: 999px;
   pointer-events: none;
+  transform: translate3d(-50%, -50%, 0) scale(0.001);
   background: rgb(0, 0, 0);
-  animation: ripple 0.75s ease-out forwards;
+  animation: ripple 0.6s ease-out forwards;
 }
 
 @media (prefers-reduced-motion: reduce) {

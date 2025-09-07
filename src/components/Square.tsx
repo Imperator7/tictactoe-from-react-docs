@@ -24,8 +24,8 @@ export default function Square({
 
   const addRipple = (e: React.PointerEvent<HTMLButtonElement>) => {
     const r = e.currentTarget.getBoundingClientRect()
-    const x = Math.max(0, Math.min(e.clientX - r.left, r.width))
-    const y = Math.max(0, Math.min(e.clientY - r.top, r.height))
+    const x = Math.round(Math.max(0, Math.min(e.clientX - r.left, r.width)))
+    const y = Math.round(Math.max(0, Math.min(e.clientY - r.top, r.height)))
 
     const id = rippleId.current++
     setRipples((rs) => [...rs, { id, x, y }])
