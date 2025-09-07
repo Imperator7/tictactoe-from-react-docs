@@ -30,9 +30,13 @@ export default function Square({
     return '0px'
   }
 
+  const buttonAnimation = () => {
+    return 'transition-all duration-110 hover:scale-110 active:scale-100 ease-in-out'
+  }
+
   return (
     <button
-      className={`w-full aspect-square border text-6xl font-bold ${highlight}`}
+      className={`w-full aspect-square border text-6xl font-bold ${highlight} ${buttonAnimation()}`}
       onClick={handleBoxClick}
       style={{
         borderRadius: cornerByIndex(boxIndex),
