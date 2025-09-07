@@ -37,8 +37,8 @@ export default function Square({
         `${mark === 'O' ? 'text-blue-500' : ''}`,
         'w-full aspect-square text-6xl font-bold border border-black',
         `${highlight}`,
-        'transition-transform duration-150 ease-in-out select-none',
-        'hover:scale-110 active:scale-95 hover:z-50',
+        'transition-transform duration-250 ease-out select-none',
+        'hover:scale-110 active:scale-85 hover:z-50',
         `focus:${highlight === 'bg-slate-200' ? 'bg-slate-300' : ''} `,
       ].join(' ')}
       onClick={handleBoxClick}
