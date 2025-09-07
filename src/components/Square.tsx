@@ -9,7 +9,7 @@ type SquareProps = {
   handlePlaceMark: (markAt: number) => void
 }
 
-type Ripple = { id: number; x: number; y: number }
+type Ripple = { id: number; x: number; y: number; R: number }
 
 export default function Square({
   mark,
@@ -24,13 +24,16 @@ export default function Square({
 
   const addRipple = (e: React.PointerEvent<HTMLButtonElement>) => {
     const r = e.currentTarget.getBoundingClientRect()
-    const x = Math.round(Math.max(0, Math.min(e.clientX - r.left, r.width)))
-    const y = Math.round(Math.max(0, Math.min(e.clientY - r.top, r.height)))
+    const x = Math.round(e.clientX - r.left)
+    const y = Math.round(e.clientY - r.top)
 
+    const R = Math.ceil(Math.min(r.width, r.height))
     const id = rippleId.current++
-    setRipples((rs) => [...rs, { id, x, y }])
+    setRipples((rs) => [...rs, { id, x, y, R }])
 
     setTimeout(() => setRipples((rs) => rs.filter((rp) => rp.id !== id)), 1000)
+
+    if (navigator.vibrate) navigator.vibrate(8)
   }
 
   const handleBoxClick = () => {
@@ -68,9 +71,18 @@ export default function Square({
     >
       <span className="pointer-events-none absolute inset-0 z-10">
         {ripples.map((r) => (
-          <span key={r.id} className="ripple" style={{ left: r.x, top: r.y }} />
+          <span
+            key={r.id}
+            className="ripple"
+            style={{
+              ['--x' as string]: `${r.x}px`,
+              ['--y' as string]: `${r.y}px`,
+              ['--R' as string]: `${r.R}px`,
+            }}
+          />
         ))}
       </span>
+
       {mark}
     </button>
   )

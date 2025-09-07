@@ -1,21 +1,26 @@
 @import 'tailwindcss';
 
-@keyframes ripple {
-  to {
-    transform: translate3d(-50%, -50%, 0) scale(5.5);
-    opacity: 0;
-  }
-}
-
 .ripple {
   position: absolute;
-  width: 8px;
-  height: 8px;
-  border-radius: 999px;
+  inset: 0;
   pointer-events: none;
-  transform: translate3d(-50%, -50%, 0) scale(0.001);
-  background: rgb(0, 0, 0);
-  animation: ripple 0.6s ease-out forwards;
+  opacity: 1;
+  background: radial-gradient(
+    circle at var(--x) var(--y),
+    rgba(0, 0, 0, 0.6) 0%,
+    rgba(0, 0, 0, 0.28) 20%,
+    transparent 60%
+  );
+  clip-path: circle(0px at var(--x) var(--y));
+  animation: rippleMask 0.82s ease-out forwards;
+  will-change: clip-path, opacity;
+}
+
+@keyframes rippleMask {
+  to {
+    clip-path: circle(var(--R) at var(--x) var(--y));
+    opacity: 0;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
