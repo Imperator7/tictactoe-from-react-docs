@@ -16,12 +16,12 @@ export default function Board({
     if (gameStage.status === 'ongoing') return 'bg-slate-200'
     if (gameStage.status === 'tie') return 'bg-amber-200'
     return gameStage?.line?.includes(index)
-      ? 'bg-emerald-600 opacity-90'
+      ? 'bg-lime-500 opacity-90'
       : 'bg-slate-200'
   }
 
   return (
-    <div className="grid grid-cols-3 gap-0 max-w-96 sm:max-w-sm md:max-w-md mx-auto">
+    <div className="grid grid-cols-3 gap-0 my-2 sm:max-w-sm md:max-w-md mx-auto">
       {marks.map((mark, index) => {
         return (
           <Square

@@ -1,3 +1,4 @@
+import { useRef, useState } from 'react'
 import { type Mark } from '../types/board.type'
 
 type SquareProps = {
@@ -8,6 +9,8 @@ type SquareProps = {
   handlePlaceMark: (markAt: number) => void
 }
 
+type Ripple = { id: number; x: number; y: number }
+
 export default function Square({
   mark,
   boxIndex,
@@ -15,6 +18,21 @@ export default function Square({
   highlight,
   handlePlaceMark,
 }: SquareProps) {
+  const [ripples, setRipples] = useState<Ripple[]>([])
+
+  const rippleId = useRef(0)
+
+  const addRipple = (e: React.PointerEvent<HTMLButtonElement>) => {
+    const r = e.currentTarget.getBoundingClientRect()
+    const x = Math.max(0, Math.min(e.clientX - r.left, r.width))
+    const y = Math.max(0, Math.min(e.clientY - r.top, r.height))
+
+    const id = rippleId.current++
+    setRipples((rs) => [...rs, { id, x, y }])
+
+    setTimeout(() => setRipples((rs) => rs.filter((rp) => rp.id !== id)), 1000)
+  }
+
   const handleBoxClick = () => {
     if (clickable === false) return
     handlePlaceMark(boxIndex)
@@ -39,13 +57,20 @@ export default function Square({
         `${highlight}`,
         'transition-transform duration-250 ease-out select-none',
         'hover:scale-110 active:scale-85 hover:z-50',
-        `focus:${highlight === 'bg-slate-200' ? 'bg-slate-300' : ''} `,
+        `focus:${highlight === 'bg-slate-200' ? 'bg-slate-300' : ''}`,
+        'relative',
       ].join(' ')}
+      onPointerDown={addRipple}
       onClick={handleBoxClick}
       style={{
         borderRadius: cornerByIndex(boxIndex),
       }}
     >
+      <span className="pointer-events-none absolute inset-0 z-10">
+        {ripples.map((r) => (
+          <span key={r.id} className="ripple" style={{ left: r.x, top: r.y }} />
+        ))}
+      </span>
       {mark}
     </button>
   )

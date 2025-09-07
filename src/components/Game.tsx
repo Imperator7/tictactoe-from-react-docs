@@ -53,20 +53,20 @@ export default function Game() {
 
   const isEnd = gameStage.status !== 'ongoing'
   return (
-    <div className="w-full max-w-100">
-      <h2 className="text-xl !m-2 font-semibold">{announcement}</h2>
+    <div className="w-full max-w-100 px-2">
+      <h2 className="text-xl my-1.5 font-semibold">{announcement}</h2>
       <div>
         <Board
           marks={currentBoard(gameState)}
           handlePlaceMark={handlePlaceMark}
           gameStage={gameStage}
         />
-        <br />
-        <div className="flex items-start justify-between px-3">
+
+        <div className="flex items-start justify-between ">
           <div>
             <button
               onClick={handlePlayAgain}
-              className="px-5 py-2 my-1 bg-green-700 text-white font-bold rounded-lg"
+              className="px-9 py-2 my-1 bg-green-700 text-white font-bold rounded-lg"
             >
               {isEnd ? 'Restart' : 'Play again'}
             </button>
