@@ -23,3 +23,4 @@ none
 
 **Problems faced when developing:**
 - react's strict mode makes mounting happens twice✅ **understood:** it dues to strict mode's purpose to force to write pure functions with not side effects. 
+- add dynamic tailwind classes to the safelist so its JIT dont ignore those classes when building css.
