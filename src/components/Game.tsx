@@ -51,6 +51,16 @@ export default function Game() {
     })
   }
 
+  const historyMessage = (index: number) => {
+    if (index === 0) {
+      return 'Go to game start'
+    } else if (index === gameState.history.length - 1) {
+      return 'Latest move'
+    } else {
+      return `Go to move ${index}`
+    }
+  }
+
   const isEnd = gameStage.status !== 'ongoing'
 
   return (
@@ -87,12 +97,15 @@ export default function Game() {
                   <li key={index}>
                     {
                       <button
-                        className="bg-blue-600 text-white px-4 py-2 rounded text-xs transition-transform duration-75 hover:-translate-y-1 active:translate-y-1"
+                        className={[
+                          ' text-white font-bold px-4 py-2 rounded text-xs transition-transform duration-75 hover:-translate-y-1 active:translate-y-1',
+                          index === gameState.currentMove
+                            ? 'bg-blue-200'
+                            : 'bg-blue-600',
+                        ].join(' ')}
                         onClick={() => handleHistorySelect(index)}
                       >
-                        {index !== 0
-                          ? `Go to move ${index}`
-                          : `Go to game start`}
+                        {historyMessage(index)}
                       </button>
                     }
                   </li>

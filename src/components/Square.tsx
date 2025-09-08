@@ -32,12 +32,11 @@ export default function Square({
     setRipples((rs) => [...rs, { id, x, y, R }])
 
     setTimeout(() => setRipples((rs) => rs.filter((rp) => rp.id !== id)), 1000)
-
-    if (navigator.vibrate) navigator.vibrate(8)
   }
 
   const handleBoxClick = () => {
     if (clickable === false) return
+    console.log(highlight)
     handlePlaceMark(boxIndex)
   }
 
@@ -60,7 +59,11 @@ export default function Square({
         `${highlight}`,
         'transition-transform duration-250 ease-out select-none',
         'hover:scale-110 active:scale-85 hover:z-50',
-        `focus:${highlight === 'bg-slate-200' ? 'bg-slate-300' : ''}`,
+        `${
+          highlight === 'bg-slate-200'
+            ? 'focus:bg-slate-400 focus:brightness-120'
+            : ''
+        }`,
         'relative',
       ].join(' ')}
       onPointerDown={addRipple}
