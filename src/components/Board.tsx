@@ -13,7 +13,8 @@ export default function Board({
   gameStage,
 }: BoardProps) {
   function highlightedButton(index: number): string {
-    if (gameStage.status === 'ongoing') return 'bg-slate-200'
+    if (gameStage.status === 'ongoing')
+      return 'bg-slate-200/20 backdrop-blur-xs'
     if (gameStage.status === 'tie') return 'bg-amber-200'
     return gameStage?.line?.includes(index)
       ? 'bg-lime-500 opacity-90'

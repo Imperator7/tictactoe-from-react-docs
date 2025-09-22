@@ -64,7 +64,7 @@ export default function Game() {
   const isEnd = gameStage.status !== 'ongoing'
 
   return (
-    <div className="w-full max-w-100 px-2">
+    <div className="w-full max-w-100 px-2 text-white">
       <h2 className="text-xl my-1.5 font-semibold">{announcement}</h2>
       <div>
         <Board
@@ -84,7 +84,7 @@ export default function Game() {
           </div>
           <div className="flex flex-col items-end">
             <button
-              className="px-5 py-2 my-1 bg-amber-400 rounded-lg text-white font-bold transition-transform duration-75 hover:-translate-y-0.5 active:translate-y-1"
+              className="px-5 py-2 my-1 bg-amber-400 rounded-lg text-white font-bold transition-transform duration-75 hover:-translate-y-0.5 active:translate-y-1 text-nowrap"
               onClick={() => {
                 setToggleShowHistory(!toggleShowHistory)
               }}
