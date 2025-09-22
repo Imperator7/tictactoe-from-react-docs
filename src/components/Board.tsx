@@ -15,10 +15,10 @@ export default function Board({
   function highlightedButton(index: number): string {
     if (gameStage.status === 'ongoing')
       return 'bg-slate-200/20 backdrop-blur-xs'
-    if (gameStage.status === 'tie') return 'bg-amber-200'
+    if (gameStage.status === 'tie') return 'bg-amber-300/30 backdrop-blur-xs'
     return gameStage?.line?.includes(index)
-      ? 'bg-lime-500 opacity-90'
-      : 'bg-slate-200'
+      ? 'bg-lime-500/90 backdrop-blur-xs'
+      : 'bg-slate-200/20 backdrop-blur-xs'
   }
 
   return (
