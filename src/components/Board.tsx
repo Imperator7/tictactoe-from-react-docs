@@ -14,11 +14,11 @@ export default function Board({
 }: BoardProps) {
   function highlightedButton(index: number): string {
     if (gameStage.status === 'ongoing')
-      return 'bg-slate-200/20 backdrop-blur-xs'
-    if (gameStage.status === 'tie') return 'bg-amber-300/30 backdrop-blur-xs'
+      return 'bg-slate-200/20 backdrop-blur-[2px]'
+    if (gameStage.status === 'tie') return 'bg-amber-300/30 backdrop-blur-[2px]'
     return gameStage?.line?.includes(index)
-      ? 'bg-lime-500/90 backdrop-blur-xs'
-      : 'bg-slate-200/20 backdrop-blur-xs'
+      ? 'bg-lime-500/90 backdrop-blur-[0px]'
+      : 'bg-slate-200/20 backdrop-blur-[2px]'
   }
 
   return (
