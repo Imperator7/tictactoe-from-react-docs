@@ -1,0 +1,23 @@
+@keyframes shoot {
+  0% {
+    transform: translate(0, 0) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(200px, 200px) scale(0.5);
+    opacity: 0;
+  }
+}
+
+@keyframes shootInterval {
+  0% {
+    transform: translate(0, 0) scale(1);
+    opacity: 1;
+  }
+
+  20%,
+  100% {
+    transform: translate(200px, 200px) scale(0.5);
+    opacity: 0;
+  }
+}
