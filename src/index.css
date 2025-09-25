@@ -1,5 +1,9 @@
 @import 'tailwindcss';
 
+html {
+  background-color: black;
+}
+
 .ripple {
   position: absolute;
   inset: 0;
