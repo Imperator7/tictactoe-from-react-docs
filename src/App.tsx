@@ -4,7 +4,7 @@ import './App.css'
 function App() {
   return (
     <div className="max-h-dvh relative overflow-hidden inset-0 overscroll-none bg-black">
-      <picture className="absolute inset-0 object-contain">
+      <picture className="absolute inset-0 bg-cover">
         <source type="image/avif" srcSet="/space.avif" sizes="100vh" />
         <source type="image/webp" srcSet="/space.webp" sizes="100vh" />
         <img
