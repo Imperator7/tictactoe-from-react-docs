@@ -3,7 +3,7 @@ import './App.css'
 
 function App() {
   return (
-    <div className="min-h-[100dvh] relative overflow-hidden inset-0">
+    <div className="max-h-dvh relative overflow-hidden inset-0 bg-[url('/space.jpg')] bg-center bg-cover bg-no-">
       <div className="absolute z-10 top-[50%] left-[50%] w-1 h-1 bg-white rounded-full animate-[shoot_1.5s_linear_infinite]" />
       <div className="absolute z-10 top-[35%] left-[70%] w-1 h-1 bg-white rounded-full animate-[shoot_3s_linear_infinite]" />
       <div className="absolute z-10 top-[25%] left-[20%] w-1 h-1 bg-white rounded-full animate-[shoot_1.5s_linear_infinite]" />
@@ -13,8 +13,7 @@ function App() {
       <div className="absolute z-10 top-[40%] left-[33%] w-1 h-1 bg-white rounded-full animate-[shootInterval_4s_linear_infinite]" />
       <div className="absolute z-10 top-[40%] left-[5%]  w-1 h-1 bg-white rounded-full animate-[shootInterval_4s_linear_infinite]" />
       <div className="absolute z-10 top-[70%] left-[8%]  w-1 h-1 bg-white rounded-full animate-[shootInterval_3s_linear_infinite]" />
-      <img src="/space.jpg" alt="" className="absolute min-h-screen" />
-      <div className="py-32 relative min-h-screen flex flex-col items-center">
+      <div className="py-32 relative min-h-screen flex flex-col items-center ">
         <Game />
       </div>
     </div>
