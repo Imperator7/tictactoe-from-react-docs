@@ -3,7 +3,13 @@ import './App.css'
 
 function App() {
   return (
-    <div className="max-h-dvh relative overflow-hidden inset-0 bg-[url('/space.jpg')] bg-center bg-cover bg-no-">
+    <div className="max-h-dvh relative overflow-hidden inset-0 overscroll-none">
+      <img
+        src="/space.jpg"
+        alt="space-background"
+        className="absolute inset-0 w-full h-full bg-black"
+        loading="lazy"
+      />
       <div className="absolute z-10 top-[50%] left-[50%] w-1 h-1 bg-white rounded-full animate-[shoot_1.5s_linear_infinite]" />
       <div className="absolute z-10 top-[35%] left-[70%] w-1 h-1 bg-white rounded-full animate-[shoot_3s_linear_infinite]" />
       <div className="absolute z-10 top-[25%] left-[20%] w-1 h-1 bg-white rounded-full animate-[shoot_1.5s_linear_infinite]" />
